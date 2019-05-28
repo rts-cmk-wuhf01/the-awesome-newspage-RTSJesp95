@@ -12,4 +12,10 @@ module.exports = (app) => {
       });
    });
 
+   app.get('/contact', (req, res, next) => {
+      res.render('contact', {
+         title: "The News Paper - News & Lifestyle Magazine Template"
+      });
+   });
+
 };
