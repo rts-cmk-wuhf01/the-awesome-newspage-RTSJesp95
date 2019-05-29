@@ -29,6 +29,4 @@ module.exports = (app) => {
          title: "The News Paper - News & Lifestyle Magazine Template"
       });
    });
-
-
 };
