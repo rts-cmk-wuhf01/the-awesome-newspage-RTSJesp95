@@ -5,6 +5,12 @@ module.exports = (app) => {
          title: "The News Paper - News & Lifestyle Magazine Template"
       });
    });
+   
+   app.get('/categories-post', (req, res, next) => {
+      res.render('categories-post', {
+         title: "The News Paper - News & Lifestyle Magazine Template"
+      });
+   });
 
    app.get('/about', (req, res, next) => {
       res.render('about', {
@@ -18,10 +24,5 @@ module.exports = (app) => {
       });
    });
 
-   app.get('/categories', (req, res, next) => {
-      res.render('categories', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
-      });
-   });
 
 };
