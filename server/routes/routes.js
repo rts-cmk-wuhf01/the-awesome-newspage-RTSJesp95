@@ -9,11 +9,11 @@ module.exports = (app) => {
       let [products] = await db.execute('SELECT * FROM products');
       db.end();
 
-      res.send(products);
+      // res.send(products);
 
-      // res.render('products', {
-      //    'products': products
-      // });
+      res.render('products', {
+         'products': products
+      });
    })
 
    app.get('/', (req, res, next) => {

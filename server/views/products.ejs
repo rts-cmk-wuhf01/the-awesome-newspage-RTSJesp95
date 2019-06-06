@@ -10,11 +10,11 @@
     <h1>Produkterne</h1>
 
     <% if(typeof products != 'undefined') {%>
-    <% products.forEach(product =>  {%>
+    <% products.forEach(product => {%>
     <div>
-        <h3><%= product.product_title %></h3>
-        <p><%= product.product_description %></p>
-        <span><%= product.product_price %></span>
+        <h3>Produkt Navn:<br><br><%= product.product_title %></h3>
+        <p>Beskrivelse: <br><br><%= product.product_description %></p>
+        <span>Pris: <br><br><%= product.product_price %> kr.</span>
     </div>
     <% }); %>
     <% } %>
