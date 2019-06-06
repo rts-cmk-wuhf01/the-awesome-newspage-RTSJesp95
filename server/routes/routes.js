@@ -6,7 +6,7 @@ module.exports = (app) => {
       // Ved hjælp af async, bliver det muligt mellem krølleparanteserne at bruge await
       // Efterfølgende udfører den funktionen
       let db = await mysql.connect();
-      let [products] = await db.execute('SELECT * FROM products');
+      let [products] = await db.execute('SELECT * FROM products LEFT OUTER JOIN categories ON category_id = fk_category_id');
       db.end();
 
       // res.send(products);
