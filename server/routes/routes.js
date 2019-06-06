@@ -1,5 +1,20 @@
+const mysql = require('../config/mysql')
 const date = require('date-and-time');
 module.exports = (app) => {
+
+   app.get('/database', async (req, res, next) =>{
+      // Ved hjælp af async, bliver det muligt mellem krølleparanteserne at bruge await
+      // Efterfølgende udfører den funktionen
+      let db = await mysql.connect();
+      let [products] = await db.execute('SELECT * FROM products');
+      db.end();
+
+      res.send(products);
+
+      // res.render('products', {
+      //    'products': products
+      // });
+   })
 
    app.get('/', (req, res, next) => {
       let latestPosts = [{
