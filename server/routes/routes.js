@@ -2,17 +2,32 @@ const mysql = require('../config/mysql')
 const date = require('date-and-time');
 module.exports = (app) => {
 
-   app.get('/database', async (req, res, next) =>{
+   // app.get('/database', async (req, res, next) =>{
+   //    // Ved hjælp af async, bliver det muligt mellem krølleparanteserne at bruge await
+   //    // Efterfølgende udfører den funktionen
+   //    let db = await mysql.connect();
+   //    let [products] = await db.execute('SELECT * FROM products LEFT OUTER JOIN categories ON category_id = fk_category_id');
+   //    db.end();
+
+   //    // res.send(products);
+
+   //    res.render('products', {
+   //       'products': products
+   //    });
+   // })
+
+   app.get('/test', async (req, res, next) =>{
       // Ved hjælp af async, bliver det muligt mellem krølleparanteserne at bruge await
       // Efterfølgende udfører den funktionen
       let db = await mysql.connect();
-      let [products] = await db.execute('SELECT * FROM products LEFT OUTER JOIN categories ON category_id = fk_category_id');
+      let [authors] = await db.execute('SELECT * FROM authors');
+      console.log(authors);
       db.end();
 
       // res.send(products);
 
-      res.render('products', {
-         'products': products
+      res.render('databaseTest', {
+         'authors': authors
       });
    })
 

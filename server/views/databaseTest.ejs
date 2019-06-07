@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Produkter</title>
+</head>
+<body>
+    <h1>Authors</h1>
+
+    <% if(typeof authors != 'undefined') {%>
+    <% authors.forEach(author => {%>
+    <div>
+        <h3>Author Name:<br><br><%= author.author_name %></h3>
+        <img src="/img/bg-img/<%= author.author_image %>" alt="Author Image <% author.author_id %>">
+        <!-- <img>Kategori: <br><br><%= author.author_image %></img> -->
+        <h4>Title: <br><br><%= author.author_title %></h4>
+        <p>About: <br><br><%= author.author_about %></p>
+    </div>
+    <% }); %>
+    <% } %>
+</body>
+</html>
