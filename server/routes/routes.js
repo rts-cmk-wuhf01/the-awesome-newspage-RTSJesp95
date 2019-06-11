@@ -31,7 +31,19 @@ module.exports = (app) => {
       });
    })
 
-   app.get('/', (req, res, next) => {
+   app.get('/test-post/:category_id', async (req, res, next) => {
+      // res.send(req.params.category_id); // for demonstrationens skyld! 
+      let db = await mysql.connect();
+      let [articles] = await db.execute('SELECT * FROM articles WHERE fk_category_id = ?', [req.params.category_id]);
+      db.end();
+      res.render('test-post', {
+         'title': "The News Paper - News & Lifestyle Magazine Template",
+         'articles': articles
+      });
+      // her kan alle kategoriens artikler hentes osv...
+   });
+
+   app.get('/', async (req, res, next) => {
       let latestPosts = [{
          postTitle: "Finance",
          postText: "Pellentesque mattis arcu massa, nec fringilla turpis eleifend id.",
@@ -68,9 +80,13 @@ module.exports = (app) => {
          postImg: "24.jpg",
          postDate: '2018-04-14 9:00'
       }]
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      db.end();
       res.render('home', {
          latestPosts: latestPosts,
-         title: "The News Paper - News & Lifestyle Magazine Template"
+         title: "The News Paper - News & Lifestyle Magazine Template",
+         'categories': categories
       });
       let now = new Date('2019-01-14 19:00:14');
       // console.log(app.locals.dateAndTime.format(now, 'h:mm A | MMM DD | YYYY'));
@@ -80,33 +96,49 @@ module.exports = (app) => {
       console.log(formattedDate);
    });
 
-   app.get('/', (req, res, next) => {
-      res.render('home', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
-      });
-   });
+   // app.get('/', (req, res, next) => {
+   //    res.render('home', {
+   //       title: "The News Paper - News & Lifestyle Magazine Template"
+   //    });
+   // });
 
-   app.get('/categories-post', (req, res, next) => {
+   app.get('/categories-post', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      db.end();
       res.render('categories-post', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
+         title: "The News Paper - News & Lifestyle Magazine Template",
+         'categories': categories
       });
    });
 
-   app.get('/single-post', (req, res, next) => {
+   app.get('/single-post', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      db.end();
       res.render('single-post', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
+         title: "The News Paper - News & Lifestyle Magazine Template",
+         'categories': categories
       });
    });
 
-   app.get('/about', (req, res, next) => {
+   app.get('/about', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      db.end();
       res.render('about', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
+         title: "The News Paper - News & Lifestyle Magazine Template",
+         'categories': categories
       });
    });
 
-   app.get('/contact', (req, res, next) => {
+   app.get('/contact', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      db.end();
       res.render('contact', {
-         title: "The News Paper - News & Lifestyle Magazine Template"
+         title: "The News Paper - News & Lifestyle Magazine Template",
+         'categories': categories
       });
    });
 };
