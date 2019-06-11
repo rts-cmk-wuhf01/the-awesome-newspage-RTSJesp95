@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test - Kategorier</title>
+</head>
+<body>
+    <h1><%= category.category_title  %></h1>
+    <% if(typeof articles != 'undefined'){ %>
+        <% if (articles.length > 0) {%>
+
+        <% articles.forEach(article =>{ %>
+           <img src="/img/bg-img/<%= article.article_image %>" alt="Article Image <% article.article_id %>">
+           <h1><%= article.article_title %></h1>
+           <p><%= article.article_text %></p>
+           <p><%= article.article_postdate %></p>
+        <% }); %>
+        <% } else{%>
+            <p>No Articles available</p>
+            <% }%>
+    <% } %>
+    <!-- Hvis man har musen over en parentes eller krøllet parentes, kan man se hvor dens sætning slutter henner -->
+</body>
+</html>

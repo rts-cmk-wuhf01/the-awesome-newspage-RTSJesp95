@@ -31,13 +31,15 @@ module.exports = (app) => {
       });
    })
 
-   app.get('/test-post/:category_id', async (req, res, next) => {
+   app.get('/category/:category_id', async (req, res, next) => {
       // res.send(req.params.category_id); // for demonstrationens skyld! 
       let db = await mysql.connect();
       let [articles] = await db.execute('SELECT * FROM articles WHERE fk_category_id = ?', [req.params.category_id]);
+      let [categories] = await db.execute('SELECT * FROM categories WHERE category_id = ?', [req.params.category_id]);
       db.end();
-      res.render('test-post', {
+      res.render('category', {
          'title': "The News Paper - News & Lifestyle Magazine Template",
+         'category': categories[0], 
          'articles': articles
       });
       // her kan alle kategoriens artikler hentes osv...
