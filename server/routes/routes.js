@@ -34,13 +34,51 @@ module.exports = (app) => {
    app.get('/category/:category_id', async (req, res, next) => {
       // res.send(req.params.category_id); // for demonstrationens skyld! 
       let db = await mysql.connect();
-      let [articles] = await db.execute('SELECT * FROM articles WHERE fk_category_id = ?', [req.params.category_id]);
+      // let [articles] = await db.execute('SELECT * FROM articles WHERE fk_category_id = ?', [req.params.category_id]);
+      // Eksempel på en SUBSELECT der henter antallet af kommentarer på en artikel
+      let [articles] = await db.execute(`
+         SELECT 
+              category_id
+            , category_title
+            , article_id
+            , article_title
+            , article_text
+            , article_image
+            , article_likes
+            , author_id
+            , author_name
+            , (SELECT COUNT(comment_id) 
+               FROM comments 
+               WHERE fk_article_id = article_id) AS article_comments
+         FROM articles 
+         INNER JOIN categories ON category_id = fk_category_id
+         INNER JOIN authors ON author_id = fk_author_id
+         WHERE fk_category_id = ?`, [req.params.category_id]);
       let [categories] = await db.execute('SELECT * FROM categories WHERE category_id = ?', [req.params.category_id]);
+      // Eksempel på hvordan man kan finde den nyeste post i hver kategori
+      let [latestPosts] = await db.execute(`
+      SELECT 
+           category_id
+         , category_title
+         , article_id
+         , article_title
+         , article_image
+         , article_postdate
+      FROM categories 
+      LEFT OUTER JOIN articles ON fk_category_id = category_id
+      WHERE article_id = (
+            SELECT article_id 
+            FROM articles 
+            WHERE fk_category_id = category_id 
+            ORDER BY article_postdate DESC 
+            LIMIT 1)
+      ORDER BY article_postdate DESC`);
       db.end();
       res.render('category', {
          'title': "The News Paper - News & Lifestyle Magazine Template",
          'category': categories[0], 
-         'articles': articles
+         'articles': articles,
+         'latestPosts': latestPosts
       });
       // her kan alle kategoriens artikler hentes osv...
    });

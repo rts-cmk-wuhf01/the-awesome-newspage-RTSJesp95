@@ -13,13 +13,14 @@
 
         <% articles.forEach(article =>{ %>
            <img src="/img/bg-img/<%= article.article_image %>" alt="Article Image <% article.article_id %>">
+           <h3><%= article.author_name %></h3>
            <h1><%= article.article_title %></h1>
            <p><%= article.article_text %></p>
            <p><%= article.article_postdate %></p>
         <% }); %>
         <% } else{%>
             <p>No Articles available</p>
-            <% }%>
+        <% }%>
     <% } %>
     <!-- Hvis man har musen over en parentes eller krøllet parentes, kan man se hvor dens sætning slutter henner -->
 </body>
