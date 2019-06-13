@@ -36,8 +36,12 @@ module.exports = (app) => {
       let db = await mysql.connect();
       // let [articles] = await db.execute('SELECT * FROM articles WHERE fk_category_id = ?', [req.params.category_id]);
       // Eksempel på en SUBSELECT der henter antallet af kommentarer på en artikel
+      // Her bliver tingene sat sammen med variablen articles og alle tingene der bliver selected bliver smidt ind i et array
+      // For f.eks. at vælge author_name, I det her tilfælde fordi det er sat ind i en forEach (article)
+      // skal man skrive article.author_name. Det samme gælder hvis man skal have fat i de andre ting
+      // der er i SELECT, skal man bare skrive article(Navnet på vores forEach).(Navnet på det du vil have fat i, i din SELECT)
       let [articles] = await db.execute(`
-         SELECT 
+         SELECT
               category_id
             , category_title
             , article_id
