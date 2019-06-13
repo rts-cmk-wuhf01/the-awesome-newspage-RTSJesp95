@@ -58,7 +58,8 @@ module.exports = (app) => {
          INNER JOIN categories ON category_id = fk_category_id
          INNER JOIN authors ON author_id = fk_author_id
          WHERE fk_category_id = ?`, [req.params.category_id]);
-      let [categories] = await db.execute('SELECT * FROM categories WHERE category_id = ?', [req.params.category_id]);
+      let [categories] = await db.execute('SELECT * FROM  categories');
+      // let [categoriesNav] = await db.execute('SELECT * FROM  categories');
       // Eksempel på hvordan man kan finde den nyeste post i hver kategori
       let [latestPosts] = await db.execute(`
       SELECT 
@@ -79,8 +80,7 @@ module.exports = (app) => {
       ORDER BY article_postdate DESC`);
       db.end();
       res.render('category', {
-         'title': "The News Paper - News & Lifestyle Magazine Template",
-         'category': categories[0], 
+         'categories': categories, 
          'articles': articles,
          'latestPosts': latestPosts
       });
