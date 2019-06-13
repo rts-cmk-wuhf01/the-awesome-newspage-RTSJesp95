@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <title>Test - Kategorier</title>
 </head>
 <body>
@@ -17,9 +18,11 @@
            <h1><%= article.article_title %></h1>
            <p><%= article.article_text %></p>
            <p><%= article.article_postdate %></p>
+           <span><i title="Likes" class="fas fa-thumbs-up"></i><p> <%= article.article_likes %> </p><i title="Comments" class="fas fa-comment"></i><p> <%= article.article_comments %> </p></span>
         <% }); %>
         <% } else{%>
-            <p>No Articles available</p>
+            <p>No Articles currently available for this category ;_;</p>
+            <img src="https://media1.tenor.com/images/fb6d78954f2ab5e5577c48ee5e7fa5ff/tenor.gif?itemid=7347192" alt="GIF">
         <% }%>
     <% } %>
     <!-- Hvis man har musen over en parentes eller krøllet parentes, kan man se hvor dens sætning slutter henner -->
