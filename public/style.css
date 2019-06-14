@@ -547,6 +547,8 @@ textarea:focus {
 .single-blog-post {
   position: relative;
   z-index: 1; }
+  .empty-article{
+    margin: 0 135px; }
   .single-blog-post .post-thumb a {
     display: block; }
   .single-blog-post .post-data {
