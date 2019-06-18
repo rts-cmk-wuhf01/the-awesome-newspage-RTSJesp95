@@ -2,93 +2,32 @@
     <div class="container">
         <div class="row">
 
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t1.jpg" alt="">
-                    <div class="team-info">
-                        <h5>James Williams</h5>
-                        <h6>Senior Editor</h6>
+            <% if(typeof articles != 'undefined'){ %>
+                <% if (authors.length > 0) {%>
+                    <% authors.forEach(author =>{ %>
+                        <!-- Single Featured Member Start -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="single-team-member">
+                                <img src="/img/bg-img/<%= author.author_image %>" alt="<%= author.author_id %>">
+                                <div class="team-info">
+                                    <h5><%= author.author_name %></h5>
+                                    <h6><%= author.author_title %></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Featured Member End -->
+                <% }); %>
+                <% } else{%>
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="single-team-member">
+                            <div class="team-info">
+                                <h3>Info is missing!</h3>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                <% }%>
+            <% } %>
 
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t2.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Christinne Smith</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t3.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Alicia Dormund</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t4.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Steve Duncan</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t5.jpg" alt="">
-                    <div class="team-info">
-                        <h5>James Williams</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t6.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Christinne Smith</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t7.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Alicia Dormund</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Single Team Member -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="single-team-member">
-                    <img src="/img/bg-img/t8.jpg" alt="">
-                    <div class="team-info">
-                        <h5>Steve Duncan</h5>
-                        <h6>Senior Editor</h6>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>

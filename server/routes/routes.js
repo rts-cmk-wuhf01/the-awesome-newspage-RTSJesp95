@@ -4,10 +4,40 @@ async function getCategories() {
    let db = await mysql.connect();
    let [categories] = await db.execute(`
       SELECT category_id, category_title 
-      FROM categories
-      ORDER BY category_title ASC`);
+      FROM categories`);
    db.end();
    return categories;
+}
+
+async function getLatestPost(){
+   let db = await mysql.connect();
+   let [latestPosts] = await db.execute(`
+   SELECT 
+        category_id
+      , category_title
+      , article_id
+      , article_title
+      , article_image
+      , article_postdate
+   FROM categories 
+   LEFT OUTER JOIN articles ON fk_category_id = category_id
+   WHERE article_id = (
+         SELECT article_id 
+         FROM articles 
+         WHERE fk_category_id = category_id 
+         ORDER BY article_postdate DESC 
+         LIMIT 1)
+   ORDER BY article_postdate DESC`);
+   db.end();
+   return latestPosts;
+}
+
+async function getAuthors(){
+   let db = await mysql.connect();
+   let [authors] = await db.execute(`
+   SELECT * FROM authors`);
+   db.end();
+   return authors;
 }
 module.exports = (app) => {
 
@@ -67,26 +97,10 @@ module.exports = (app) => {
          INNER JOIN categories ON category_id = fk_category_id
          INNER JOIN authors ON author_id = fk_author_id
          WHERE fk_category_id = ?`, [req.params.category_id]);
-      let [categories] = await db.execute('SELECT * FROM  categories');
+      let categories = await getCategories();
       // let [categoriesNav] = await db.execute('SELECT * FROM  categories');
       // Eksempel på hvordan man kan finde den nyeste post i hver kategori
-      let [latestPosts] = await db.execute(`
-      SELECT 
-           category_id
-         , category_title
-         , article_id
-         , article_title
-         , article_image
-         , article_postdate
-      FROM categories 
-      LEFT OUTER JOIN articles ON fk_category_id = category_id
-      WHERE article_id = (
-            SELECT article_id 
-            FROM articles 
-            WHERE fk_category_id = category_id 
-            ORDER BY article_postdate DESC 
-            LIMIT 1)
-      ORDER BY article_postdate DESC`);
+      let latestPosts = await getLatestPost(); 
       db.end();
       res.render('category', {
          'categories': categories, 
@@ -97,45 +111,8 @@ module.exports = (app) => {
    });
 
    app.get('/', async (req, res, next) => {
-      let latestPosts = [{
-         postTitle: "Finance",
-         postText: "Pellentesque mattis arcu massa, nec fringilla turpis eleifend id.",
-         postImg: "19.jpg",
-         postDate: '2018-04-14 7:00'
-      },
-      {
-         postTitle: "Politics",
-         postText: "Sed a elit euismod augue semper congue sit amet ac sapien.",
-         postImg: "20.jpg",
-         postDate: '2018-04-14 9:00'
-      },
-      {
-         postTitle: "Health",
-         postText: "Pellentesque mattis arcu massa, nec fringilla turpis eleifend id.",
-         postImg: "21.jpg",
-         postDate: '2018-04-14 8:00'
-      },
-      {
-         postTitle: "Finance",
-         postText: "Augue semper congue sit amet ac sapien. Fusce consequat.",
-         postImg: "22.jpg",
-         postDate: '2018-04-14 7:00'
-      },
-      {
-         postTitle: "Travel",
-         postText: "Pellentesque mattis arcu massa, nec fringilla turpis eleifend id.",
-         postImg: "23.jpg",
-         postDate: '2018-04-14 9:00'
-      },
-      {
-         postTitle: "Politics",
-         postText: "Augue semper congue sit amet ac sapien. Fusce consequat.",
-         postImg: "24.jpg",
-         postDate: '2018-04-14 9:00'
-      }]
-      let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM  categories');
-      db.end();
+      let latestPosts = await getLatestPost(); 
+      let categories = await getCategories();
       res.render('home', {
          latestPosts: latestPosts,
          title: "The News Paper - News & Lifestyle Magazine Template",
@@ -156,9 +133,7 @@ module.exports = (app) => {
    // });
 
    app.get('/categories-post', async (req, res, next) => {
-      let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM  categories');
-      db.end();
+      let categories = await getCategories();
       res.render('categories-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories
@@ -166,9 +141,7 @@ module.exports = (app) => {
    });
 
    app.get('/single-post', async (req, res, next) => {
-      let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM  categories');
-      db.end();
+      let categories = await getCategories();
       res.render('single-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories
@@ -176,19 +149,17 @@ module.exports = (app) => {
    });
 
    app.get('/about', async (req, res, next) => {
-      let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM  categories');
-      db.end();
+      let categories = await getCategories();
+      let authors = await getAuthors();
       res.render('about', {
          title: "The News Paper - News & Lifestyle Magazine Template",
-         'categories': categories
+         'categories': categories,
+         'authors': authors
       });
    });
 
    app.get('/contact', async (req, res, next) => {
-      let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM  categories');
-      db.end();
+      let categories = await getCategories();
       res.render('contact', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories
@@ -256,7 +227,7 @@ module.exports = (app) => {
          res.render('contact', {
             'categories': categories,
             'return_message': return_message.join(', '),
-            'values': req.body, // læg mærke til vi "bare" sender req.body tilbage
+            // 'values': req.body, // læg mærke til vi "bare" sender req.body tilbage
             title: "The News Paper - News & Lifestyle Magazine Template"
          });
       }
