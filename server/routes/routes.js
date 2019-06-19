@@ -39,6 +39,14 @@ async function getAuthors(){
    db.end();
    return authors;
 }
+
+async function getVideos(){
+   let db = await mysql.connect();
+   let [videos] = await db.execute(`
+   SELECT * FROM videos`);
+   db.end();
+   return videos;
+}
 module.exports = (app) => {
 
    // app.get('/database', async (req, res, next) =>{
@@ -118,10 +126,12 @@ module.exports = (app) => {
    app.get('/', async (req, res, next) => {
       let latestPosts = await getLatestPost(); 
       let categories = await getCategories();
+      let videos = await getVideos();
       res.render('home', {
          latestPosts: latestPosts,
          title: "The News Paper - News & Lifestyle Magazine Template",
-         'categories': categories
+         'categories': categories,
+         'videos': videos
       });
       let now = new Date('2019-01-14 19:00:14');
       // console.log(app.locals.dateAndTime.format(now, 'h:mm A | MMM DD | YYYY'));
