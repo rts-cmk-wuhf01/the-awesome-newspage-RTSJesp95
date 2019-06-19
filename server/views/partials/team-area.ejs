@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
 
-            <% if(typeof articles != 'undefined'){ %>
+            <% if(typeof authors != 'undefined'){ %>
                 <% if (authors.length > 0) {%>
                     <% authors.forEach(author =>{ %>
                         <!-- Single Featured Member Start -->
@@ -12,6 +12,7 @@
                                 <div class="team-info">
                                     <h5><%= author.author_name %></h5>
                                     <h6><%= author.author_title %></h6>
+                                    <p><%= author.author_about %></p>
                                 </div>
                             </div>
                         </div>

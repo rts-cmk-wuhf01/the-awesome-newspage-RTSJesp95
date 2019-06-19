@@ -70,6 +70,11 @@ module.exports = (app) => {
       });
    })
 
+   app.get('/hej', async (req, res, next) =>{
+      //Brug res.send('(Tekst her)') for at få noget udskrevet på siden
+      res.send('Hej med dig')
+   })
+
    app.get('/category/:category_id', async (req, res, next) => {
       // res.send(req.params.category_id); // for demonstrationens skyld! 
       let db = await mysql.connect();
