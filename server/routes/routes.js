@@ -128,10 +128,10 @@ module.exports = (app) => {
       let categories = await getCategories();
       let videos = await getVideos();
       res.render('home', {
-         latestPosts: latestPosts,
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories,
-         'videos': videos
+         'videos': videos,
+         'latestPosts': latestPosts
       });
       let now = new Date('2019-01-14 19:00:14');
       // console.log(app.locals.dateAndTime.format(now, 'h:mm A | MMM DD | YYYY'));
@@ -149,17 +149,21 @@ module.exports = (app) => {
 
    app.get('/categories-post', async (req, res, next) => {
       let categories = await getCategories();
+      let latestPosts = await getLatestPost();
       res.render('categories-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
-         'categories': categories
+         'categories': categories,
+         'latestPosts': latestPosts
       });
    });
 
    app.get('/single-post', async (req, res, next) => {
       let categories = await getCategories();
+      let latestPosts = await getLatestPost();
       res.render('single-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
-         'categories': categories
+         'categories': categories,
+         'latestPosts': latestPosts
       });
    });
 
