@@ -7,9 +7,9 @@
                     <% videos.forEach(video =>{ %>
                         <!-- Single Video Post Start -->
                         <div class="col-12 col-sm-6 col-md-4">
+                            <p>Post Date: <br> <%= video.video_postdate %></p>
                             <div class="single-video-post">
                                 <img src="/img/bg-img/<%= video.video_image%>" alt="">
-                                <p>Post Date: <br> <%= video.video_postdate %></p>
                                 <!-- Video Button -->
                                 <div class="videobtn">
                                     <a href="<%= video.video_url %>" class="videoPlayer"><i
