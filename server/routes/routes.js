@@ -32,6 +32,28 @@ async function getLatestPost(){
    return latestPosts;
 }
 
+async function getLatestComments(){
+   let db = await mysql.connect()
+   // let [latestComments] = await db.execute(`
+   // SELECT 
+   //    comment_id
+   //    , comment_postdate
+   //    , comment_text
+   //    , user_id
+   //    , user_name
+   //    , user_image
+   // FROM comments
+   // `)
+   let [latestComments] = await db.execute(`
+   SELECT comment_postdate
+   FROM comments
+   ORDER BY comment_postdate DESC LIMIT 4
+   `)
+   db.end();
+   return latestComments;
+   
+   // console.log(latestComments);
+}
 async function getAuthors(){
    let db = await mysql.connect();
    let [authors] = await db.execute(`
@@ -47,6 +69,7 @@ async function getVideos(){
    db.end();
    return videos;
 }
+
 module.exports = (app) => {
 
    // app.get('/database', async (req, res, next) =>{
@@ -113,12 +136,14 @@ module.exports = (app) => {
       let categories = await getCategories();
       // let [categoriesNav] = await db.execute('SELECT * FROM  categories');
       // Eksempel på hvordan man kan finde den nyeste post i hver kategori
-      let latestPosts = await getLatestPost(); 
+      let latestPosts = await getLatestPost();
+      let latestComments = await getLatestComments(); 
       db.end();
       res.render('category', {
          'categories': categories, 
          'articles': articles,
-         'latestPosts': latestPosts
+         'latestPosts': latestPosts,
+         'latestComments': latestComments
       });
       // her kan alle kategoriens artikler hentes osv...
    });
