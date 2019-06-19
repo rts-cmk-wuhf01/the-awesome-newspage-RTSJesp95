@@ -36,15 +36,15 @@ app.locals.dateAndTime = require('date-and-time');
 // npm install date-and-time --save
 app.locals.dateAndTime = require('date-and-time');
 app.locals.dateAndTime.locale('en');
-app.locals.dateAndTime.setLocales('en', {
-   'A': ['AM', 'PM'],
-   'YYYY': [2019],
-   'dddd': ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
-   'ddd': ['Søn', 'Man', 'Tirs', 'Ons', 'Tors', 'Fre', 'Lør'],
-   'dd': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
-   'MMM': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
-   'MMMM': ['Januar', ' Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December']
-});
+// app.locals.dateAndTime.setLocales('en', {
+//    'A': ['AM', 'PM'],
+//    'YYYY': [2019],
+//    'dddd': ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
+//    'ddd': ['Søn', 'Man', 'Tirs', 'Ons', 'Tors', 'Fre', 'Lør'],
+//    'dd': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
+//    'MMM': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+//    'MMMM': ['Januar', ' Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December']
+// });
 
 /* indlæs alle de routes serveren skal håndtere
  * dette sker igennem en ny fil, for at splitte koden op i smartere blokke */

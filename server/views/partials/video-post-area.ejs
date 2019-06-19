@@ -5,9 +5,10 @@
             <% if(typeof videos != 'undefined'){ %>
                 <% if (videos.length > 0) {%>
                     <% videos.forEach(video =>{ %>
+                        <% let postDate = new Date(video.video_postdate) %>
                         <!-- Single Video Post Start -->
                         <div class="col-12 col-sm-6 col-md-4">
-                            <p>Post Date: <br> <%= video.video_postdate %></p>
+                            <p class="post-date">Post Date: <br> <%= dateAndTime.format(postDate, 'h:mm A | MMM DD | YYYY') %></p>
                             <div class="single-video-post">
                                 <img src="/img/bg-img/<%= video.video_image%>" alt="">
                                 <!-- Video Button -->
