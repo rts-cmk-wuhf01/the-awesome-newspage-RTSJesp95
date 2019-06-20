@@ -206,27 +206,43 @@ module.exports = (app) => {
       });
    });
    
+   //Her vil den lede efter en ejs fil med navnet "fisk" og med res.render('fisk')
+   //bliver filens indhold udskrevet ude i browseren
    app.get('/fisk', async (req, res, next) => {
       res.render('fisk');
    });
 
+   //Her opretter den selv "filer" med ejs filen "fisk" som en template
+   //med stien "fisk/:fisk_antal"
    app.get('/fisk/:fisk_antal', async (req, res ,next) =>{
+
+      //Nedenunder har vi en variabel med objekter som indeholder de data
+      //vi skal bruge for at få det til at virke
       let fisk_data = {
          "antal": req.params.fisk_antal,
          "type": req.params.fisk_type
       };
       
+      //Og vi skal selvfølgelig huske at den skal udskrives på selve ejs filen "fisk"
+      //med variablen "fisk_data"
       res.render('fisk' , {
          "fisk_data": fisk_data 
       });
    });
 
+   //Her opretter den selv "filer" med ejs filen "fisk" som en template
+   //med stien "fisk/:fisk_antal/:fisk_type"
    app.get('/fisk/:fisk_antal/:fisk_type', async (req, res ,next) =>{
+
+      //Nedenunder har vi en variabel med objekter som indeholder de data
+      //vi skal bruge for at få det til at virke
       let fisk_data = {
          "antal": req.params.fisk_antal,
          "type": req.params.fisk_type
       };
       
+      //Og vi skal selvfølgelig huske at den skal udskrives på selve ejs filen "fisk"
+      //med variablen "fisk_data"
       res.render('fisk' , {
          "fisk_data": fisk_data 
       });
