@@ -34,21 +34,13 @@ async function getLatestPost(){
 
 async function getLatestComments(){
    let db = await mysql.connect()
-   // let [latestComments] = await db.execute(`
-   // SELECT 
-   //    comment_id
-   //    , comment_postdate
-   //    , comment_text
-   //    , user_id
-   //    , user_name
-   //    , user_image
-   // FROM comments
-   // `)
    let [latestComments] = await db.execute(`
-   SELECT comment_postdate
-   FROM comments
-   ORDER BY comment_postdate DESC LIMIT 4
-   `)
+   SELECT article_id, article_title, comment_id, comment_postdate, comment_text, user_id, user_name, user_image 
+   FROM comments 
+   LEFT OUTER JOIN users ON fk_user_id = user_id 
+   LEFT OUTER JOIN articles ON fk_article_id = article_id
+   ORDER BY comment_postdate DESC 
+   LIMIT 4`)
    db.end();
    return latestComments;
    
@@ -175,20 +167,24 @@ module.exports = (app) => {
    app.get('/categories-post', async (req, res, next) => {
       let categories = await getCategories();
       let latestPosts = await getLatestPost();
+      let latestComments = await getLatestComments();
       res.render('categories-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories,
-         'latestPosts': latestPosts
+         'latestPosts': latestPosts,
+         'latestComments': latestComments
       });
    });
 
    app.get('/single-post', async (req, res, next) => {
       let categories = await getCategories();
       let latestPosts = await getLatestPost();
+      let latestComments = await getLatestComments();
       res.render('single-post', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories,
-         'latestPosts': latestPosts
+         'latestPosts': latestPosts,
+         'latestComments': latestComments
       });
    });
 
@@ -207,6 +203,32 @@ module.exports = (app) => {
       res.render('contact', {
          title: "The News Paper - News & Lifestyle Magazine Template",
          'categories': categories
+      });
+   });
+   
+   app.get('/fisk', async (req, res, next) => {
+      res.render('fisk');
+   });
+
+   app.get('/fisk/:fisk_antal', async (req, res ,next) =>{
+      let fisk_data = {
+         "antal": req.params.fisk_antal,
+         "type": req.params.fisk_type
+      };
+      
+      res.render('fisk' , {
+         "fisk_data": fisk_data 
+      });
+   });
+
+   app.get('/fisk/:fisk_antal/:fisk_type', async (req, res ,next) =>{
+      let fisk_data = {
+         "antal": req.params.fisk_antal,
+         "type": req.params.fisk_type
+      };
+      
+      res.render('fisk' , {
+         "fisk_data": fisk_data 
       });
    });
 
