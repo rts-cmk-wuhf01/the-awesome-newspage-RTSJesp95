@@ -1,0 +1,22 @@
+<% if(typeof latestComments != 'undefined'){ %>
+    <% if (latestComments.length > 0) {%>
+        <% latestComments.forEach(comment =>{ %>
+            <% let postDate = new Date(comment.comment_postdate) %>
+            <!-- Single Comment Post Start -->
+            <div class="single-comments d-flex">
+                <div class="comments-thumbnail mr-15">
+                    <img src="category/img/bg-img/<%= comment.user_image %>" alt="<%= comment.user_id %>">
+                </div>
+                <div class="comments-text">
+                    <a href="#"><%= comment.user_name %> <span>on</span> <%= comment.article_title %></a>
+                    <p class="post-date"><%= dateAndTime.format(postDate, 'h:mm A | MMM DD | YYYY') %></p>
+                </div>
+            </div>
+            <!-- Single Comment Post End -->
+    <% }); %>
+    <% } else{%>
+        <div class="single-comments d-flex">
+            <p>No Comment Available</p>
+        </div>
+    <% }%>
+<% } %>
