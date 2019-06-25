@@ -22,7 +22,7 @@ module.exports = app => {
     app.post("/admin/categories", async (req, res, next) => {
       // her skal vi modtage form data og indsætte det i databasen
       // send bruger tilbage til kategori admin listen
-            // indsamling af værdierne og oprettelse af de nødvendige variabler.
+      // indsamling af værdierne og oprettelse af de nødvendige variabler.
       //I req.body.name leder den efter name="name" i input feltet
       //Det samme gælder for alle de andre variabler
       let name = req.body.name;
