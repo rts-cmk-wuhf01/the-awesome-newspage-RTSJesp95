@@ -96,4 +96,9 @@ module.exports = app => {
       // tag form data og parameter fra endpoint og opdater databasen
       // send bruger tilbage til kategori admin listen
     });
+
+    app.get("/admin/categories/delete/:category_id", async (req, res, next) =>{
+      // benyt endpoint parameter til at slette en kategori fra databasen
+      // send bruger tilbage til kategori admin listen
+    })
 };
