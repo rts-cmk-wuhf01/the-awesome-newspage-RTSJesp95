@@ -23,13 +23,10 @@ module.exports = app => {
       // her skal vi modtage form data og indsætte det i databasen
       // send bruger tilbage til kategori admin listen
       // indsamling af værdierne og oprettelse af de nødvendige variabler.
-      //I req.body.name leder den efter name="name" i input feltet
-      //Det samme gælder for alle de andre variabler
-      let name = req.body.name;
+      let name = req.body.category_title;
       // let email = req.body.email;
       // let subject = req.body.subject;
       // let message = req.body.message;
-      let contactDate = new Date();
    
       // håndter valideringen, alle fejl pushes til et array så de er samlet ET sted
       let return_message = [];
@@ -66,10 +63,10 @@ module.exports = app => {
          // send det modtagede data tilbage, så vi kan se det er korrekt
          let db = await mysql.connect();
          let result = await db.execute(`
-         INSERT INTO messages 
-         (message_name, message_email, message_subject, message_text, message_date) 
+         INSERT INTO categories 
+         (category_title) 
          VALUES 
-         (?,?,?,?,?)`, [name, email, subject, message, contactDate]);
+         (?)`, [name]);
          db.end();
          // affected rows er større end nul, hvis en (eller flere) række(r) blev indsat
          if (result[0].affectedRows > 0) {
@@ -80,7 +77,7 @@ module.exports = app => {
          let categories = await getCategories();
          res.render('admin_categories', {
             'categories': categories,
-            'return_message': return_message.join(', '),
+            'return_message': return_message.join(''),
             // 'values': req.body, // læg mærke til vi "bare" sender req.body tilbage
             title: "The News Paper - News & Lifestyle Magazine Template"
          });
@@ -90,15 +87,42 @@ module.exports = app => {
     app.get("/admin/categories/edit/:category_id", async (req, res, next) => {
       // denne route skal hente både alle kategorier og den ene kategori
       // data skal sendes til template filen
+      let categories = await getCategories();
+      let db = await mysql.connect();
+      let [selectedCategory] = await db.execute(`SELECT * FROM categories WHERE category_id = ?`, [req.params.category_id]);
+      db.end();
+
+      res.render('admin_categories', {
+         'categories': categories,
+         'selectedCategory': selectedCategory[0]
+      });
     });
 
     app.post("/admin/categories/edit/:category_id", async (req, res, next) => {
       // tag form data og parameter fra endpoint og opdater databasen
       // send bruger tilbage til kategori admin listen
+      let categories = await getCategories();
+      let db = await mysql.connect();
+      let [result] = await db.execute(
+         `UPDATE categories 
+          SET category_title = ?
+          WHERE category_id = ?`,
+         [category_title, category_id]);
+      db.end();
+      res.render('admin_categories', {
+         'categories': categories
+      });
     });
 
     app.get("/admin/categories/delete/:category_id", async (req, res, next) =>{
       // benyt endpoint parameter til at slette en kategori fra databasen
       // send bruger tilbage til kategori admin listen
+      let categories = await getCategories();
+      let db = await mysql.connect();
+      let [result] = await db.execute(`DELETE FROM categories WHERE category_id = ?`, [category_id]);
+      db.end();
+      res.render('admin_categories', {
+         'categories': categories
+      });
     })
 };
