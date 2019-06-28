@@ -1,17 +1,17 @@
 <form method="post">
-  <label>Titel</label>
+  <label>Title</label>
   <input
     type="text"
     name="category_title"
     value="<%= typeof selectedCategory != 'undefined' ? selectedCategory.category_title : '' %>">
-  <button>Gem</button>
+  <button>Save</button>
 </form>
 <table>
   <thead>
     <tr>
       <th>Actions</th>
       <th>Id</th>
-      <th>Titel</th>
+      <th>Title</th>
     </tr>
   </thead>
 
@@ -20,10 +20,10 @@
     <% categories.forEach(category => { %>
     <tr>
       <td>
-        <a href="/admin/categories/edit/<%= category.category_id %>">Ret</a>
+        <a href="/admin/categories/edit/<%= category.category_id %>">Edit</a>
         <a
           href="/admin/categories/delete/<%= category.category_id %>"
-          onclick="return confirm('Er du sikker på du vil slette?')">Slet</a>
+          onclick="return confirm('Are you sure you wanna delete this category?')">Delete</a>
       </td>
       <td><%= category.category_id %></td>
       <td><%= category.category_title %></td>
