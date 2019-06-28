@@ -101,14 +101,14 @@ module.exports = app => {
     app.post("/admin/categories/edit/:category_id", async (req, res, next) => {
       // tag form data og parameter fra endpoint og opdater databasen
       // send bruger tilbage til kategori admin listen
-      let categories = await getCategories();
       let db = await mysql.connect();
       let [result] = await db.execute(
          `UPDATE categories 
-          SET category_title = ?
-          WHERE category_id = ?`,
-         [category_title, category_id]);
-      db.end();
+         SET category_title = ?
+         WHERE category_id = ?`,
+         [req.body.category_title, req.params.category_id]);
+         db.end();
+      let categories = await getCategories();
       res.render('admin_categories', {
          'categories': categories
       });
@@ -117,10 +117,10 @@ module.exports = app => {
     app.get("/admin/categories/delete/:category_id", async (req, res, next) =>{
       // benyt endpoint parameter til at slette en kategori fra databasen
       // send bruger tilbage til kategori admin listen
-      let categories = await getCategories();
       let db = await mysql.connect();
-      let [result] = await db.execute(`DELETE FROM categories WHERE category_id = ?`, [category_id]);
+      let [result] = await db.execute(`DELETE FROM categories WHERE category_id = ?`, [req.params.category_id]);
       db.end();
+      let categories = await getCategories();
       res.render('admin_categories', {
          'categories': categories
       });
